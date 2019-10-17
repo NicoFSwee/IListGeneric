@@ -26,8 +26,7 @@ namespace Lists.ListLogic
             Node<T> insertNode = new Node<T>(value);
             if (_head == null)
             {
-                _head = insertNode;
-                
+                _head = insertNode; 
             }
             else
             {
@@ -273,7 +272,7 @@ namespace Lists.ListLogic
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new MyListEnumerator<T>(_head);
         }
     }
 }
