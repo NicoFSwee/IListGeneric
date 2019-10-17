@@ -12,7 +12,7 @@ namespace Lists.Test
         public void Constructor_EmptyList_ShouldReturnNotNull()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<object> list = new MyList<object>();
             //Act
 
             //Assert
@@ -23,9 +23,10 @@ namespace Lists.Test
         public void Add_First_ShouldReturnIndexZero()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<string> list = new MyList<string>();
             //Act
-            int index = list.Add("Müller");
+            list.Add("Müller");
+            int index = list.IndexOf("Müller");
             //Assert
             Assert.AreEqual(0, index);
         }
@@ -34,11 +35,12 @@ namespace Lists.Test
         public void Add_Third_ShouldReturnIndexTwo()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<string> list = new MyList<string>();
             //Act
             list.Add("Müller");
             list.Add("Maier");
-            int index = list.Add("Huber");
+            list.Add("Huber");
+            int index = list.IndexOf("Huber");
             //Assert
             Assert.AreEqual(2, index);
         }
@@ -47,7 +49,7 @@ namespace Lists.Test
         public void IndexOf_OneOfOne_ShouldReturnIndexZero()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<string> list = new MyList<string>();
             list.Add("Maier");
             //Act
             int index = list.IndexOf("Maier");
@@ -59,7 +61,7 @@ namespace Lists.Test
         public void IndexOf_Middle_ShouldReturnIndexOne()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<string> list = new MyList<string>();
             list.Add("Maier");
             list.Add("Müller");
             list.Add("Huber");
@@ -73,7 +75,7 @@ namespace Lists.Test
         public void IndexOf_MiddleIntObject_ShouldReturnIndexOne()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -87,7 +89,7 @@ namespace Lists.Test
         public void IndexOf_NotInList_ShouldReturnMinusOne()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -101,7 +103,7 @@ namespace Lists.Test
         public void GetEnumerator_ThreeElements_ShouldReturnValidData()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -124,7 +126,7 @@ namespace Lists.Test
         public void Clear_EmptyList_ShouldBeEmpty()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             //Act
             list.Clear();
             //Assert
@@ -135,7 +137,7 @@ namespace Lists.Test
         public void Clear_ListWithSomeEntries_ShouldBeEmpty()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -149,7 +151,7 @@ namespace Lists.Test
         public void TContains_EmptyList_ShouldReturnFalse()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             //Act
             bool found = list.Contains(5);
             //Assert
@@ -160,7 +162,7 @@ namespace Lists.Test
         public void Contains_ItemIsNotInList_ShouldReturnFalse()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -174,7 +176,7 @@ namespace Lists.Test
         public void Contains_ItemInList_ShouldReturnTrue()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -188,7 +190,7 @@ namespace Lists.Test
         public void Insert_OnIndexOne_ShouldReturnIndexOne()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -202,7 +204,7 @@ namespace Lists.Test
         public void Insert_Zero_ShouldReturnIndexZero()
         {
             //Arrange
-            MyList list = new MyList();
+            MyList<int> list = new MyList<int>();
             list.Add(3);
             list.Add(4);
             list.Add(5);
@@ -517,8 +519,6 @@ namespace Lists.Test
             //Assert
             Assert.AreEqual(3, value);
         }
-
-
 
 
     }

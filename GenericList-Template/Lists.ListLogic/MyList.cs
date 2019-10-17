@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Lists.ListLogic
 {
@@ -7,9 +8,9 @@ namespace Lists.ListLogic
     /// Die Liste verwaltet beliebige Elemente und implementiert
     /// das IList-Interface und damit auch ICollection und IEnumerable
     /// </summary>
-    public class MyList : IList
+    public class MyList<T> : IList<T>
     {
-        Node _head;
+        Node<T> _head;
 
         #region IList Members
 
@@ -20,23 +21,26 @@ namespace Lists.ListLogic
         /// </summary>
         /// <param name="value">Einzufügender Datensatz</param>
         /// <returns>Index des Werts in der Liste</returns>
-        public int Add(object value)
+        public void Add(T value)
         {
-            Node insertNode = new Node(value);
+            Node<T> insertNode = new Node<T>(value);
             if (_head == null)
             {
                 _head = insertNode;
-                return 0;
+                
             }
-            Node searchNode = _head;
-            int index = 1;
-            while (searchNode.Next != null)
+            else
             {
-                searchNode = searchNode.Next;
-                index++;
+                Node<T> searchNode = _head;
+                int index = 1;
+                while (searchNode.Next != null)
+                {
+                    searchNode = searchNode.Next;
+                    index++;
+                }
+                searchNode.Next = insertNode;
             }
-            searchNode.Next = insertNode;
-            return index;
+
         }
 
         /// <summary>
@@ -53,7 +57,7 @@ namespace Lists.ListLogic
         /// </summary>
         /// <param name="value">gesuchter DataObject</param>
         /// <returns></returns>
-        public bool Contains(object value)
+        public bool Contains(T value)
         {
             return IndexOf(value) >= 0;
         }
@@ -63,9 +67,9 @@ namespace Lists.ListLogic
         /// </summary>
         /// <param name="value">gesuchter DataObject</param>
         /// <returns>Index oder -1, falls der DataObject nicht in der Liste ist</returns>
-        public int IndexOf(object value)
+        public int IndexOf(T value)
         {
-            Node searchNode = _head;
+            Node<T> searchNode = _head;
             int index = 0;
             while (searchNode != null && !searchNode.DataObject.Equals(value))
             {
@@ -86,20 +90,20 @@ namespace Lists.ListLogic
         /// </summary>
         /// <param name="index">Einfügeposition</param>
         /// <param name="value">Einzufügender DataObject</param>
-        public void Insert(int index, object value)
+        public void Insert(int index, T value)
         {
             if (index > Count || index < 0)
             {
                 return;
             }
-            Node newNode = new Node(value);
+            Node<T> newNode = new Node<T>(value);
             if (index == 0)
             {
                 newNode.Next = _head;
                 _head = newNode;
                 return;
             }
-            Node searchNode = _head;
+            Node<T> searchNode = _head;
             for (int i = 1; i < index; i++)
             {
                 searchNode = searchNode.Next;
@@ -129,12 +133,17 @@ namespace Lists.ListLogic
         /// zumindest ein mal gibt.
         /// </summary>
         /// <param name="value">zu entfernender DataObject</param>
-        public void Remove(object value)
+        public bool Remove(T value)
         {
             int index = IndexOf(value);
             if (index >= 0)
             {
                 RemoveAt(index);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -154,7 +163,7 @@ namespace Lists.ListLogic
                 _head = _head.Next;
                 return;
             }
-            Node searchNode = _head;
+            Node<T> searchNode = _head;
             for (int i = 1; i < index; i++)
             {
                 searchNode = searchNode.Next;
@@ -168,15 +177,15 @@ namespace Lists.ListLogic
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public object this[int index]
+        public T this[int index]
         {
             get
             {
                 if (index < 0 || index >= Count)
                 {
-                    return null;
+                    return default(T);
                 }
-                Node searchNode = _head;
+                Node<T> searchNode = _head;
                 for (int i = 0; i < index; i++)
                 {
                     searchNode = searchNode.Next;
@@ -200,13 +209,13 @@ namespace Lists.ListLogic
         /// </summary>
         /// <param name="array">Zielarray, existiert bereits</param>
         /// <param name="index">Startindex</param>
-        public void CopyTo(Array array, int index)
+        public void CopyTo(T[] array, int index)
         {
             if (array.Length < Count - index)
             {
                 return;
             }
-            Node searchNode = _head;
+            Node<T> searchNode = _head;
             for (int i = 0; i < index; i++)
             {
                 searchNode = searchNode.Next;
@@ -229,7 +238,7 @@ namespace Lists.ListLogic
             get
             {
                 int counter = 0;
-                Node searchNode = _head;
+                Node<T> searchNode = _head;
                 while (searchNode != null)
                 {
                     searchNode = searchNode.Next;
@@ -257,9 +266,14 @@ namespace Lists.ListLogic
 
         #endregion
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
-            return new MyListEnumerator(_head);
+            return new MyListEnumerator<T>(_head);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }

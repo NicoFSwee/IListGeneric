@@ -5,12 +5,13 @@ using System.Text;
 
 namespace Lists.ListLogic
 {
-    internal class MyListEnumerator : IEnumerator
+    internal class MyListEnumerator<T> : IEnumerator<T>
     {
-        private Node _head;
-        private Node _actualNode;
+        private Node<T> _head;
+        private Node<T> _actualNode;
         private bool _isReset;
-        public MyListEnumerator(Node head)
+
+        public MyListEnumerator(Node<T> head)
         {
             _head = head;
             Reset();
@@ -36,6 +37,14 @@ namespace Lists.ListLogic
             _isReset = true;
         }
 
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         public object Current { get { return _actualNode.DataObject; } }
+
+        T IEnumerator<T>.Current { get { return _actualNode.DataObject; }
+}
     }
 }
