@@ -8,7 +8,7 @@ namespace Lists.ListLogic
     /// Die Liste verwaltet beliebige Elemente und implementiert
     /// das IList-Interface und damit auch ICollection und IEnumerable
     /// </summary>
-    public class MyList<T> : IList<T>
+    public class MyList<T> : IList<T> where T : IComparable
     {
         Node<T> _head;
 
@@ -273,6 +273,60 @@ namespace Lists.ListLogic
         IEnumerator IEnumerable.GetEnumerator()
         {
             return new MyListEnumerator<T>(_head);
+        }
+
+        public void Sort() 
+        {
+            Node<T> tmp = _head;
+            int length = Count;
+            int index = 0;
+
+            for (int i = 0; i < length - 1; i++)
+            {
+                for (int j = i+1; j < length && tmp.Next != null; j++)
+                {
+                    if (tmp.DataObject.CompareTo(tmp.Next.DataObject) > 0)
+                    {
+                        RemoveAt(index);
+                        Insert(index + 1, tmp.DataObject);
+                        tmp = tmp.Next.Next;
+                    }
+                    else
+                    {
+                        tmp = tmp.Next;
+                    }
+                    index++;
+                }
+                index = 0;
+                tmp = _head;
+            }
+        }
+
+        public void Sort(IComparer comparer)
+        {
+            Node<T> tmp = _head;
+            int length = Count;
+            int index = 0;
+
+            for (int i = 0; i < length - 1; i++)
+            {
+                for (int j = i + 1; j < length && tmp.Next != null; j++)
+                {
+                    if (comparer.Compare(tmp.DataObject, tmp.Next.DataObject) > 0)
+                    {
+                        RemoveAt(index);
+                        Insert(index + 1, tmp.DataObject);
+                        tmp = tmp.Next.Next;
+                    }
+                    else
+                    {
+                        tmp = tmp.Next;
+                    }
+                    index++;
+                }
+                index = 0;
+                tmp = _head;
+            }
         }
     }
 }

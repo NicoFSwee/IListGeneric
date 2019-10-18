@@ -13,7 +13,7 @@ namespace Lists.Test
         public void Constructor_EmptyList_ShouldReturnNotNull()
         {
             //Arrange
-            MyList<object> list = new MyList<object>();
+            MyList<string> list = new MyList<string>();
             //Act
 
             //Assert
@@ -519,6 +519,71 @@ namespace Lists.Test
             var value = list[0];
             //Assert
             Assert.AreEqual(3, value);
+        }
+
+        [TestMethod()]
+        public void CompareTo_SortLastNameAsc_ShouldBeCorrect()
+        {
+            //Arrange
+            MyList<Person> list = new MyList<Person>();
+            list.Add(new Person("Hans", "Gruber"));
+            list.Add(new Person("Ines", "Bauer"));
+            list.Add(new Person("Peter", "Wagner"));
+            list.Add(new Person("Franz", "Steiner"));
+            list.Add(new Person("Alfred", "Uri"));
+            list.Add(new Person("Hanna", "Koller"));
+            Person[] actual = new Person[list.Count];
+            //Act
+            list.Sort();
+            list.CopyTo(actual, 0);
+            //Assert
+            Assert.AreEqual("Ines", actual[0].FirstName);
+            Assert.AreEqual("Franz", actual[3].FirstName);
+            Assert.AreEqual("Peter", actual[5].FirstName);
+        }
+
+        [TestMethod()]
+        public void CompareTo_SortAgeDesc_ShouldBeCorrect()
+        {
+            //Arrange
+            MyList<Person> list = new MyList<Person>();
+            list.Add(new Person("Hans", "Gruber", 21));
+            list.Add(new Person("Ines", "Bauer", 42));
+            list.Add(new Person("Peter", "Wagner", 11));
+            list.Add(new Person("Franz", "Steiner", 15));
+            list.Add(new Person("Alfred", "Uri", 33));
+            list.Add(new Person("Hanna", "Koller", 10));
+            Person[] actual = new Person[list.Count];
+            IComparer compareHelper = Person.sortByAge();
+            //Act
+            list.Sort(compareHelper);
+            list.CopyTo(actual, 0);
+            //Assert
+            Assert.AreEqual("Ines", actual[0].FirstName);
+            Assert.AreEqual("Franz", actual[3].FirstName);
+            Assert.AreEqual("Hanna", actual[5].FirstName);
+        }
+
+        [TestMethod()]
+        public void CompareTo_SortFirstnameAsc_ShouldBeCorrect()
+        {
+            //Arrange
+            MyList<Person> list = new MyList<Person>();
+            list.Add(new Person("Hans", "Gruber", 21));
+            list.Add(new Person("Ines", "Bauer", 42));
+            list.Add(new Person("Peter", "Wagner", 11));
+            list.Add(new Person("Franz", "Steiner", 15));
+            list.Add(new Person("Alfred", "Uri", 33));
+            list.Add(new Person("Hanna", "Koller", 10));
+            Person[] actual = new Person[list.Count];
+            IComparer compareHelper = Person.sortByFirstname();
+            //Act
+            list.Sort(compareHelper);
+            list.CopyTo(actual, 0);
+            //Assert
+            Assert.AreEqual("Alfred", actual[0].FirstName);
+            Assert.AreEqual("Hans", actual[3].FirstName);
+            Assert.AreEqual("Peter", actual[5].FirstName);
         }
 
     }

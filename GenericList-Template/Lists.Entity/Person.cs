@@ -20,6 +20,13 @@ namespace Lists.Entity
             LastName = lastname;
         }
 
+        public Person(string firstname, string lastname, int age)
+        {
+            FirstName = firstname;
+            LastName = lastname;
+            Age = age;
+        }
+
         public int Age { get; set; }
 
         public int CompareTo(object obj)
@@ -58,9 +65,39 @@ namespace Lists.Entity
             }
         }
 
+        private class SortierHelferFirstname : IComparer
+        {
+            int IComparer.Compare(object x, object y)
+            {
+                Person p1 = (Person)x;
+                Person p2 = (Person)y;
+                int result;
+
+                if (p1.FirstName.CompareTo(p2.FirstName) > 0)
+                {
+                    result = 1;
+                }
+                else if (p1.FirstName.CompareTo(p2.FirstName) < 0)
+                {
+                    result = -1;
+                }
+                else
+                {
+                    result = 0;
+                }
+
+                return result;
+            }
+        }
+
         public static IComparer sortByAge()
         {
             return (IComparer)new SortierHelferAlter();
+        }
+
+        public static IComparer sortByFirstname()
+        {
+            return (IComparer)new SortierHelferFirstname();
         }
     }
 }
