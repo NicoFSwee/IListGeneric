@@ -526,20 +526,33 @@ namespace Lists.Test
         {
             //Arrange
             MyList<Person> list = new MyList<Person>();
-            list.Add(new Person("Hans", "Gruber"));
-            list.Add(new Person("Ines", "Bauer"));
-            list.Add(new Person("Peter", "Wagner"));
-            list.Add(new Person("Franz", "Steiner"));
-            list.Add(new Person("Alfred", "Uri"));
-            list.Add(new Person("Hanna", "Koller"));
+            Person hans = new Person("Hans", "Gruber");
+            Person ines = new Person("Ines", "Bauer");
+            Person peter = new Person("Peter", "Wagner");
+            Person franz = new Person("Franz", "Steiner");
+            Person alfred = new Person("Alfred", "Uri");
+            Person hanna = new Person("Hanna", "Koller");
+            list.Add(hans);
+            list.Add(ines);
+            list.Add(peter);
+            list.Add(franz);
+            list.Add(alfred);
+            list.Add(hanna);
             Person[] actual = new Person[list.Count];
             //Act
             list.Sort();
             list.CopyTo(actual, 0);
+            Person[] expected =
+            {
+                ines,
+                hans,
+                hanna,
+                franz,
+                alfred,
+                peter
+            };
             //Assert
-            Assert.AreEqual("Ines", actual[0].FirstName);
-            Assert.AreEqual("Franz", actual[3].FirstName);
-            Assert.AreEqual("Peter", actual[5].FirstName);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -547,21 +560,34 @@ namespace Lists.Test
         {
             //Arrange
             MyList<Person> list = new MyList<Person>();
-            list.Add(new Person("Hans", "Gruber", 21));
-            list.Add(new Person("Ines", "Bauer", 42));
-            list.Add(new Person("Peter", "Wagner", 11));
-            list.Add(new Person("Franz", "Steiner", 15));
-            list.Add(new Person("Alfred", "Uri", 33));
-            list.Add(new Person("Hanna", "Koller", 10));
+            Person hans = new Person("Hans", "Gruber", 21);
+            Person ines = new Person("Ines", "Bauer", 42);
+            Person peter = new Person("Peter", "Wagner", 11);
+            Person franz = new Person("Franz", "Steiner", 15);
+            Person alfred = new Person("Alfred", "Uri", 33);
+            Person hanna = new Person("Hanna", "Koller", 10);
+            list.Add(hans);
+            list.Add(ines);
+            list.Add(peter);
+            list.Add(franz);
+            list.Add(alfred);
+            list.Add(hanna);
             Person[] actual = new Person[list.Count];
             IComparer compareHelper = Person.sortByAge();
             //Act
             list.Sort(compareHelper);
             list.CopyTo(actual, 0);
+            Person[] expected =
+            {
+                ines,
+                alfred,
+                hans,
+                franz,
+                peter,
+                hanna
+            };
             //Assert
-            Assert.AreEqual("Ines", actual[0].FirstName);
-            Assert.AreEqual("Franz", actual[3].FirstName);
-            Assert.AreEqual("Hanna", actual[5].FirstName);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -569,21 +595,34 @@ namespace Lists.Test
         {
             //Arrange
             MyList<Person> list = new MyList<Person>();
-            list.Add(new Person("Hans", "Gruber", 21));
-            list.Add(new Person("Ines", "Bauer", 42));
-            list.Add(new Person("Peter", "Wagner", 11));
-            list.Add(new Person("Franz", "Steiner", 15));
-            list.Add(new Person("Alfred", "Uri", 33));
-            list.Add(new Person("Hanna", "Koller", 10));
+            Person hans = new Person("Hans", "Gruber", 21);
+            Person ines = new Person("Ines", "Bauer", 42);
+            Person peter = new Person("Peter", "Wagner", 11);
+            Person franz = new Person("Franz", "Steiner", 15);
+            Person alfred = new Person("Alfred", "Uri", 33);
+            Person hanna = new Person("Hanna", "Koller", 10);
+            list.Add(hans);
+            list.Add(ines);
+            list.Add(peter);
+            list.Add(franz);
+            list.Add(alfred);
+            list.Add(hanna);
             Person[] actual = new Person[list.Count];
             IComparer compareHelper = Person.sortByFirstname();
             //Act
             list.Sort(compareHelper);
             list.CopyTo(actual, 0);
+            Person[] expected =
+            {
+                alfred,
+                franz,
+                hanna,
+                hans,
+                ines,
+                peter
+            };
             //Assert
-            Assert.AreEqual("Alfred", actual[0].FirstName);
-            Assert.AreEqual("Hans", actual[3].FirstName);
-            Assert.AreEqual("Peter", actual[5].FirstName);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
     }
